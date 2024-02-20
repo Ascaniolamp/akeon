@@ -42,12 +42,14 @@ void initprogram(){
 void borders_render();
 void apple_regen(int *ypos, int *xpos);
 void snake_movement(int *ypos, int *xpos, int *ydir, int *xdir);
+void snake_death(int size, int ybody[size], int xbody[size], int ydir, int xdir);
 
 int main(int argc, char const *argv[]){
 	initprogram();
 
-	const float DIFFICULTY = 0.95;
+	const float MULTIPLIER = 1;
 	const int AREA = (COLS-2)*(LINES-2);
+	const int MINAREA = AREA;
 	int delay = 200000;
 
 	typedef struct{
@@ -85,24 +87,27 @@ int main(int argc, char const *argv[]){
 		}
 
 		snake_movement(&snake.ybody[0], &snake.xbody[0], &snake.ydir, &snake.xdir);
-
-		// SNAKE DEATH
-		if(snake.ybody[0] > LINES-2 || snake.ybody[0] < 1) endprogram(1);
-		if(snake.xbody[0] > COLS-2 || snake.xbody[0] < 1) endprogram(1);
-		for(int i=1; i<snake.size; i++){
-			bool in_body = (snake.ybody[0] == snake.ybody[i]) && (snake.xbody[0] == snake.xbody[i]);
-			bool is_moving = (snake.ydir != 0) || (snake.xdir !=0);
-			if(in_body && is_moving){
-				endprogram(1);
-			}
-		}
+		snake_death(snake.size, snake.ybody, snake.xbody, snake.ydir, snake.xdir);
 
 		// APPLE EAT
 		if(snake.ybody[0] == apple.ypos && snake.xbody[0] == apple.xpos){
-			if(snake.size++ >= AREA) endprogram(0);
-			apple_regen(&apple.ypos, &apple.xpos);
-			delay *= DIFFICULTY;
+			snake.size++;
+
+			bool bad_apple;
+			do{
+				bad_apple = false;
+				apple_regen(&apple.ypos, &apple.xpos);
+				for(int i=0; i<snake.size; i++)
+					if((apple.ypos == snake.ybody[i]) && (apple.xpos == snake.xbody[i]))
+						bad_apple = true;
+			}
+			while(bad_apple);
+
+			delay *= MULTIPLIER;
 		}
+
+		// CHECK WIN
+		if(snake.size >= AREA || snake.size >= MINAREA) endprogram(0);
 
 		// RENDER SNAKE
 		attrset(COLOR_PAIR(1));
@@ -152,4 +157,14 @@ void snake_movement(int *ypos, int *xpos, int *ydir, int *xdir){
 
 	*ypos += *ydir;
 	*xpos += *xdir;
+}
+
+void snake_death(int size, int ybody[size], int xbody[size], int ydir, int xdir){
+	if(ybody[0] > LINES-2 || ybody[0] < 1) endprogram(1);
+	if(xbody[0] > COLS-2 || xbody[0] < 1) endprogram(1);
+	for(int i=1; i<size; i++){
+		bool in_body = (ybody[0] == ybody[i]) && (xbody[0] == xbody[i]);
+		bool is_moving = (ydir != 0) || (xdir !=0);
+		if(in_body && is_moving) endprogram(1);
+	}
 }
