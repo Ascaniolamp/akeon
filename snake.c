@@ -11,9 +11,8 @@ int delay = 200000;
 
 typedef struct{
 	char head_symbol, body_symbol;
-	int ybody[MAXLEN], xbody[MAXLEN];
+	int ybody[MAXLEN], xbody[MAXLEN], size;
 	int ydir, xdir;
-	int size;
 }Snake;
 
 typedef struct{
@@ -71,7 +70,7 @@ void snake_death(Snake *snake);
 int main(int argc, char const *argv[]){
 	initprogram();
 
-	Snake snake = {'@', 'x', {LINES/2}, {COLS/2}, 0, 0, 3};
+	Snake snake = {'@', 'x', {LINES/2}, {COLS/2}, 3, 0, 0};
 	Apple apple = {'O', 0, 0};
 
 	apple_regen(&apple);
