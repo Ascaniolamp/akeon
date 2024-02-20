@@ -49,7 +49,6 @@ int main(int argc, char const *argv[]){
 
 	const float MULTIPLIER = 1;
 	const int AREA = (COLS-2)*(LINES-2);
-	const int MINAREA = AREA;
 	int delay = 200000;
 
 	typedef struct{
@@ -107,7 +106,7 @@ int main(int argc, char const *argv[]){
 		}
 
 		// CHECK WIN
-		if(snake.size >= AREA || snake.size >= MINAREA) endprogram(0);
+		if(snake.size >= AREA || snake.size >= sizeof(snake.ybody)/sizeof(snake.ybody[0])) endprogram(0);
 
 		// RENDER SNAKE
 		attrset(COLOR_PAIR(1));
