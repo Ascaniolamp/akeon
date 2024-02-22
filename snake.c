@@ -92,8 +92,8 @@ void initprogram(){
 
 	if(!has_colors()) return;
 	start_color();
-	init_pair(1, COLOR_WHITE, COLOR_BLUE);
-	init_pair(2, COLOR_RED, COLOR_BLACK);
+	init_pair(1, COLOR_RED, COLOR_BLACK); // Apple
+	init_pair(2, COLOR_WHITE, COLOR_BLUE); // Snake
 }
 
 void borders_render(){
@@ -132,7 +132,7 @@ void apple_eat(Apple *apple, Snake *snake){
 }
 
 void apple_render(Apple *apple){
-	attrset(COLOR_PAIR(2));
+	attrset(COLOR_PAIR(1));
 	mvaddch(apple->ypos, apple->xpos, apple->symbol);
 }
 
@@ -167,7 +167,7 @@ void snake_deathwin(Snake *snake){
 }
 
 void snake_render(Snake *snake){
-	attrset(COLOR_PAIR(1));
+	attrset(COLOR_PAIR(2));
 	for(int i=1; i<snake->size; i++) mvaddch(snake->ybody[i], snake->xbody[i], snake->body_symbol);
 	mvaddch(snake->ybody[0], snake->xbody[0], snake->head_symbol);
 }
