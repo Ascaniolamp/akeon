@@ -4,14 +4,17 @@
 #include <unistd.h>
 #include <signal.h>
 #include <time.h>
+#include <string.h>
 
+#include "options.h"
 #include "utils.h"
 #include "game.h"
 
 int main(int argc, char const *argv[]){
+	getargs(argc, argv);
 	initprogram();
 
-	Snake snake = {'@', 'x', {LINES/2}, {COLS/2}, 3, 0, 0};
+	Snake snake = {'@', 'x', COLOR_WHITE, COLOR_BLUE, {LINES/2}, {COLS/2}, 3, 0, 0};
 	Apple apple = {'O', 0, 0};
 
 	apple_regen(&apple);
@@ -34,5 +37,5 @@ int main(int argc, char const *argv[]){
 		usleep(delay);
 	}
 
-	endprogram(0);
+	endprogram(2);
 }

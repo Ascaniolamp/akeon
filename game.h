@@ -1,10 +1,14 @@
-#define MAXLEN 150
+#define MAXLENGTH 150
+#define MAXPLAYERS 4
+
 float multiplier = 1;
 int delay = 200000;
 
 typedef struct{
 	char head_symbol, body_symbol;
-	int ybody[MAXLEN], xbody[MAXLEN], size;
+	int fore_color, back_color;
+
+	int ybody[MAXLENGTH], xbody[MAXLENGTH], size;
 	int ydir, xdir;
 }Snake;
 
@@ -12,8 +16,6 @@ typedef struct{
 	char symbol;
 	int ypos, xpos;
 }Apple;
-
-int randrange(int min, int max){ return random() % (max + 1 - min) + min; }
 
 void borders_render();
 void apple_regen(Apple *apple);
@@ -90,11 +92,11 @@ void snake_deathwin(Snake *snake){
 		if(in_body && is_moving) endprogram(1);
 	}
 
-	if(snake->size >= MAXLEN) endprogram(0);
+	if(snake->size >= MAXLENGTH) endprogram(0);
 }
 
 void snake_render(Snake *snake){
-	attrset(COLOR_PAIR(2));
+	colorize(snake->fore_color, snake->back_color);
 	for(int i=1; i<snake->size; i++) mvaddch(snake->ybody[i], snake->xbody[i], snake->body_symbol);
 	mvaddch(snake->ybody[0], snake->xbody[0], snake->head_symbol);
 }
