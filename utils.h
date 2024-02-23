@@ -1,13 +1,10 @@
+#include <signal.h>
+#include <time.h>
+
 int randrange(int min, int max){ return random() % (max + 1 - min) + min; }
-
-// ===========================================================
-
 void endprogram(int code);
 void initprogram();
-
 void colorize(int fore, int back);
-
-// ===========================================================
 
 void endprogram(int code){
 	endwin();
@@ -41,8 +38,6 @@ void initprogram(){
 	init_pair(1, COLOR_RED, COLOR_BLACK); // Apple
 	init_pair(2, COLOR_WHITE, COLOR_BLUE); // Snake
 }
-
-// ===========================================================
 
 void colorize(int fore, int back){
 	if(!OPTS.colors) return;

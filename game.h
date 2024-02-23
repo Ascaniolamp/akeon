@@ -28,12 +28,12 @@ void snake_render(Snake *snake);
 void borders_render(){
 	attrset(COLOR_PAIR(0));
 
-	for(int i=0; i<COLS; ++i){
+	for(int i=0; i<COLS; i++){
 		mvaddch(0,i,'=');
 		mvaddch(LINES-1,i,'=');
 	}
 
-	for(int i=0; i<LINES; ++i){
+	for(int i=0; i<LINES; i++){
 		mvaddch(i,0,'|');
 		mvaddch(i,COLS-1,'|');
 	}
@@ -63,6 +63,7 @@ void apple_eat(Apple *apple, Snake *snake){
 void apple_render(Apple *apple){
 	attrset(COLOR_PAIR(1));
 	mvaddch(apple->ypos, apple->xpos, apple->symbol);
+	attrset(COLOR_PAIR(0));
 }
 
 void snake_movement(Snake *snake){
@@ -99,4 +100,5 @@ void snake_render(Snake *snake){
 	colorize(snake->fore_color, snake->back_color);
 	for(int i=1; i<snake->size; i++) mvaddch(snake->ybody[i], snake->xbody[i], snake->body_symbol);
 	mvaddch(snake->ybody[0], snake->xbody[0], snake->head_symbol);
+	attrset(COLOR_PAIR(0));
 }

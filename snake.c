@@ -1,16 +1,14 @@
 #include <ncurses.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
-#include <signal.h>
-#include <time.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "options.h"
 #include "utils.h"
 #include "game.h"
 
-int main(int argc, char const *argv[]){
+int main(int argc, char **argv){
 	getargs(argc, argv);
 	initprogram();
 
