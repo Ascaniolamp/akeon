@@ -6,7 +6,7 @@ int delay = 200000;
 
 typedef struct{
 	char head_symbol, body_symbol;
-	int fore_color, back_color;
+	int color_fore, color_back, color_pair;
 
 	int ybody[MAXLENGTH], xbody[MAXLENGTH], size;
 	int ydir, xdir;
@@ -97,7 +97,7 @@ void snake_deathwin(Snake *snake){
 }
 
 void snake_render(Snake *snake){
-	colorize(snake->fore_color, snake->back_color);
+	colorize(snake->color_fore, snake->color_back, snake->color_pair);
 	for(int i=1; i<snake->size; i++) mvaddch(snake->ybody[i], snake->xbody[i], snake->body_symbol);
 	mvaddch(snake->ybody[0], snake->xbody[0], snake->head_symbol);
 	attrset(COLOR_PAIR(0));

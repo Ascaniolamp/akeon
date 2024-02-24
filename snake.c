@@ -12,7 +12,7 @@ int main(int argc, char **argv){
 	getargs(argc, argv);
 	initprogram();
 
-	Snake snake = {'@', 'x', COLOR_WHITE, COLOR_BLUE, {LINES/2}, {COLS/2}, 3, 0, 0};
+	Snake snake = {'@', 'x', COLOR_WHITE, COLOR_BLUE, OPTS.predef, {LINES/2}, {COLS/2}, 3, 0, 0};
 	Apple apple = {'O', 0, 0};
 
 	apple_regen(&apple);

@@ -4,7 +4,7 @@
 int randrange(int min, int max){ return random() % (max + 1 - min) + min; }
 void endprogram(int code);
 void initprogram();
-void colorize(int fore, int back);
+void colorize(int fore, int back, int pair);
 
 void endprogram(int code){
 	endwin();
@@ -36,11 +36,18 @@ void initprogram(){
 	if(!OPTS.colors) return;
 	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK); // Apple
-	init_pair(2, COLOR_WHITE, COLOR_BLUE); // Snake
+	init_pair(2, COLOR_WHITE, COLOR_BLUE); // Blue Snake
+	init_pair(3, COLOR_BLACK, COLOR_WHITE); // White Snake
 }
 
-void colorize(int fore, int back){
+void colorize(int fore, int back, int pair){
 	if(!OPTS.colors) return;
-	init_pair(3, fore, back);
-	attrset(COLOR_PAIR(3));
+	
+	if(pair != -1){
+		attrset(COLOR_PAIR(pair));
+		return;
+	}
+
+	init_pair(pair, fore, back);
+	attrset(COLOR_PAIR(pair));
 }
