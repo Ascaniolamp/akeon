@@ -2,12 +2,15 @@
 #include <time.h>
 
 int FIXED_LINES, FIXED_COLS;
-int GAME_STARTLINE, GAME_STARTCOL;
-int GAME_ENDLINE, GAME_ENDCOL;
+int STARTLINE, STARTCOL;
+int ENDLINE, ENDCOL;
 
 int randrange(int min, int max){ return random() % (max + 1 - min) + min; }
+
 void endprogram(int code);
 void initprogram();
+
+void update_viewport();
 void colorize(int pair);
 
 void endprogram(int code){
@@ -38,12 +41,7 @@ void initprogram(){
 
 	FIXED_LINES = LINES;
 	FIXED_COLS = COLS;
-
-	GAME_STARTLINE = (LINES - FIXED_LINES) / 2;
-	GAME_STARTCOL = (COLS - FIXED_COLS) / 2;
-
-	GAME_ENDLINE = GAME_STARTLINE + FIXED_LINES;
-	GAME_ENDCOL = GAME_STARTCOL + FIXED_COLS;
+	update_viewport();
 
 	OPTS.colors = OPTS.colors && has_colors();
 	if(OPTS.colors){
@@ -52,6 +50,14 @@ void initprogram(){
 		init_pair(2, COLOR_WHITE, COLOR_BLUE); // Blue Snake
 		init_pair(3, COLOR_BLACK, COLOR_WHITE); // White Snake
 	}
+}
+
+void update_viewport(){
+	STARTLINE = (LINES - FIXED_LINES) / 2;
+	STARTCOL = (COLS - FIXED_COLS) / 2;
+
+	ENDLINE = STARTLINE + FIXED_LINES;
+	ENDCOL = STARTCOL + FIXED_COLS;
 }
 
 void colorize(int pair){

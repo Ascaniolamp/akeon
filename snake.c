@@ -36,6 +36,7 @@ int main(int argc, char **argv){
 
 	while(true){
 		erase();
+		update_viewport();
 
 		snake_movement(&snakes[0]);
 
@@ -49,9 +50,7 @@ int main(int argc, char **argv){
 
 			for(int j=0; j<players; j++) snake_collision(&snakes[i], &snakes[j]);
 
-			if(!snakes[i].alive) continue;
-
-			snake_render(&snakes[i]);
+			if(snakes[i].alive) snake_render(&snakes[i]);
 		}
 
 		apple_render(&apple);
