@@ -9,7 +9,7 @@
 #include "game.h"
 
 int main(int argc, char **argv){
-	getargs(argc, argv);
+	if(argc > 1) getargs(argc, argv);
 	initprogram();
 
 	int YCENTER = (LINES-2)/2, XCENTER = (COLS-2)/2;
@@ -41,7 +41,7 @@ int main(int argc, char **argv){
 		erase();
 		update_viewport();
 
-		snake_movement(&snakes[0]);
+		if(snakes[0].alive) snake_movement(&snakes[0]);
 
 		for(int i=0; i<players; i++){
 			if(!snakes[i].alive) continue;
