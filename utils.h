@@ -2,11 +2,13 @@
 #include <time.h>
 
 int FIXED_LINES, FIXED_COLS;
+int GAME_STARTLINE, GAME_STARTCOL;
+int GAME_ENDLINE, GAME_ENDCOL;
 
 int randrange(int min, int max){ return random() % (max + 1 - min) + min; }
 void endprogram(int code);
 void initprogram();
-void colorize(int fore, int back, int pair);
+void colorize(int pair);
 
 void endprogram(int code){
 	endwin();
@@ -37,22 +39,22 @@ void initprogram(){
 	FIXED_LINES = LINES;
 	FIXED_COLS = COLS;
 
+	GAME_STARTLINE = (LINES - FIXED_LINES) / 2;
+	GAME_STARTCOL = (COLS - FIXED_COLS) / 2;
+
+	GAME_ENDLINE = GAME_STARTLINE + FIXED_LINES;
+	GAME_ENDCOL = GAME_STARTCOL + FIXED_COLS;
+
 	OPTS.colors = OPTS.colors && has_colors();
-	if(!OPTS.colors) return;
-	start_color();
-	init_pair(1, COLOR_RED, COLOR_BLACK); // Apple
-	init_pair(2, COLOR_WHITE, COLOR_BLUE); // Blue Snake
-	init_pair(3, COLOR_BLACK, COLOR_WHITE); // White Snake
+	if(OPTS.colors){
+		start_color();
+		init_pair(1, COLOR_RED, COLOR_BLACK); // Apple
+		init_pair(2, COLOR_WHITE, COLOR_BLUE); // Blue Snake
+		init_pair(3, COLOR_BLACK, COLOR_WHITE); // White Snake
+	}
 }
 
-void colorize(int fore, int back, int pair){
+void colorize(int pair){
 	if(!OPTS.colors) return;
-	
-	if(pair >= 0){
-		attrset(COLOR_PAIR(pair));
-		return;
-	}
-
-	init_pair(10, fore, back);
-	attrset(COLOR_PAIR(10));
+	attrset(COLOR_PAIR(pair));
 }

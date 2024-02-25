@@ -1,5 +1,5 @@
 #define MAXLENGTH 150
-#define MAXPLAYERS 4
+#define MAXPLAYERS 10
 
 float multiplier = 1;
 int delay = 200000;
@@ -19,14 +19,17 @@ typedef struct{
 	int ypos, xpos;
 }Apple;
 
-void borders_render();
 void apple_regen(Apple *apple);
 void apple_eat(Apple *apple, Snake *snake);
-void apple_render(Apple *apple);
+
 void snake_movement(Snake *snake);
 void snake_deathwin(Snake *snake);
+void snake_collision(Snake *snake, Snake *s2);
 void snake_die(Snake *snake);
+
+void apple_render(Apple *apple);
 void snake_render(Snake *snake);
+void borders_render();
 
 void borders_render(){
 	attrset(COLOR_PAIR(0));
@@ -92,14 +95,20 @@ void snake_deathwin(Snake *snake){
 	bool out_borders = (snake->ybody[0] > LINES-2 || snake->ybody[0] < 1) || (snake->xbody[0] > COLS-2 || snake->xbody[0] < 1);
 	if(out_borders) snake_die(snake);
 
-	for(int i=1; i<snake->size; i++){
-		bool in_body = (snake->ybody[0] == snake->ybody[i]) && (snake->xbody[0] == snake->xbody[i]);
+	if(snake->size >= MAXLENGTH) endprogram(0);
+}
+
+void snake_collision(Snake *snake, Snake *s2){
+	int i = 0;
+
+	if(snake == s2) i = 1;
+
+	for(i; i<s2->size; i++){
+		bool in_body = (snake->ybody[0] == s2->ybody[i]) && (snake->xbody[0] == s2->xbody[i]);
 		bool is_moving = (snake->ydir != 0) || (snake->xdir !=0);
 
 		if(in_body && is_moving) snake_die(snake);
 	}
-
-	if(snake->size >= MAXLENGTH) endprogram(0);
 }
 
 void snake_die(Snake *snake){
@@ -108,7 +117,7 @@ void snake_die(Snake *snake){
 }
 
 void snake_render(Snake *snake){
-	colorize(snake->color_fore, snake->color_back, snake->color_pair);
+	colorize(snake->color_pair);
 
 	for(int i=1; i<snake->size; i++) mvaddch(snake->ybody[i], snake->xbody[i], snake->body_symbol);
 	mvaddch(snake->ybody[0], snake->xbody[0], snake->head_symbol);
