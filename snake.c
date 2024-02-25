@@ -22,12 +22,15 @@ int main(int argc, char **argv){
 		{'3', 'c', COLOR_MAGENTA, COLOR_BLUE, -1, {18}, {16}, 3, 0, 0, true}
 	};
 
-	// assign colors
+	// init snakes
 	if(OPTS.colors){
 		for(int i=1; i<players; i++){
 			int pair = i+10;
 			init_pair(pair, snakes[i].color_fore, snakes[i].color_back);
 			snakes[i].color_pair = pair;
+
+			snakes[i].ybody[0] = randrange(1,FIXED_LINES-2);
+			snakes[i].xbody[0] = randrange(1,FIXED_COLS-2);
 		}
 	}
 

@@ -46,8 +46,8 @@ void borders_render(){
 }
 
 void apple_regen(Apple *apple){
-	apple->ypos = randrange(STARTLINE+1,FIXED_LINES-2);
-	apple->xpos = randrange(STARTCOL+1,FIXED_COLS-2);
+	apple->ypos = randrange(1,FIXED_LINES-2);
+	apple->xpos = randrange(1,FIXED_COLS-2);
 }
 
 void apple_eat(Apple *apple, Snake *snake){
