@@ -73,10 +73,10 @@ void snake_movement(Snake *snake){
 	}
 
 	switch(getch()){
-		case KEY_UP: snake->ydir = -1; snake->xdir = 0; break;
-		case KEY_DOWN: snake->ydir = 1; snake->xdir = 0; break;
-		case KEY_LEFT: snake->ydir = 0; snake->xdir = -1; break;
-		case KEY_RIGHT: snake->ydir = 0; snake->xdir = 1; break;
+		case 'k': snake->ydir = -1; snake->xdir = 0; break;
+		case 'j': snake->ydir = 1; snake->xdir = 0; break;
+		case 'h': snake->ydir = 0; snake->xdir = -1; break;
+		case 'l': snake->ydir = 0; snake->xdir = 1; break;
 	}
 
 	snake->ybody[0] += snake->ydir;
@@ -84,12 +84,13 @@ void snake_movement(Snake *snake){
 }
 
 void snake_deathwin(Snake *snake){
-	if(snake->ybody[0] > LINES-2 || snake->ybody[0] < 1) endprogram(1);
-	if(snake->xbody[0] > COLS-2 || snake->xbody[0] < 1) endprogram(1);
+	bool out_borders = (snake->ybody[0] > LINES-2 || snake->ybody[0] < 1) || (snake->xbody[0] > COLS-2 || snake->xbody[0] < 1);
+	if(out_borders) endprogram(1);
 
 	for(int i=1; i<snake->size; i++){
 		bool in_body = (snake->ybody[0] == snake->ybody[i]) && (snake->xbody[0] == snake->xbody[i]);
 		bool is_moving = (snake->ydir != 0) || (snake->xdir !=0);
+
 		if(in_body && is_moving) endprogram(1);
 	}
 
@@ -98,7 +99,9 @@ void snake_deathwin(Snake *snake){
 
 void snake_render(Snake *snake){
 	colorize(snake->color_fore, snake->color_back, snake->color_pair);
+
 	for(int i=1; i<snake->size; i++) mvaddch(snake->ybody[i], snake->xbody[i], snake->body_symbol);
 	mvaddch(snake->ybody[0], snake->xbody[0], snake->head_symbol);
+
 	attrset(COLOR_PAIR(0));
 }

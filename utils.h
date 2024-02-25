@@ -43,11 +43,11 @@ void initprogram(){
 void colorize(int fore, int back, int pair){
 	if(!OPTS.colors) return;
 	
-	if(pair != -1){
+	if(pair >= 0){
 		attrset(COLOR_PAIR(pair));
 		return;
 	}
 
-	init_pair(pair, fore, back);
-	attrset(COLOR_PAIR(pair));
+	init_pair(10, fore, back);
+	attrset(COLOR_PAIR(10));
 }
