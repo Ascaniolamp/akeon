@@ -12,23 +12,33 @@ int main(int argc, char **argv){
 	getargs(argc, argv);
 	initprogram();
 
-	Snake snake = {'@', 'x', COLOR_WHITE, COLOR_BLUE, OPTS.predef, {LINES/2}, {COLS/2}, 3, 0, 0};
-	Apple apple = {'O', 0, 0};
+	int YCENTER = (LINES-2)/2, XCENTER = (COLS-2)/2;
 
+	Snake snakes[MAXPLAYERS] = {
+		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true}
+	};
+
+	Apple apple = {'O', 0, 0};
 	apple_regen(&apple);
 
 	while(true){
 		erase();
 
-		snake_movement(&snake);
+		snake_movement(&snakes[0]);
 
-		bool in_apple = (snake.ybody[0] == apple.ypos) && (snake.xbody[0] == apple.xpos);
-		if(in_apple) apple_eat(&apple, &snake);
+		for(int i=0; i<MAXPLAYERS; i++){
+			if(!snakes[i].alive) continue;
 
-		snake_deathwin(&snake);
+			bool in_apple = (snakes[i].ybody[0] == apple.ypos) && (snakes[i].xbody[0] == apple.xpos);
+			if(in_apple) apple_eat(&apple, &snakes[i]);
+
+			snake_deathwin(&snakes[i]);
+			if(!snakes[i].alive) continue;
+
+			snake_render(&snakes[i]);
+		}
 
 		apple_render(&apple);
-		snake_render(&snake);
 		borders_render();
 
 		refresh();

@@ -1,13 +1,20 @@
 #include <argp.h>
 
 struct Options{
-	int predef;
+	char head, body;
+	int fore, back, pair;
 	bool colors, corpses, trash;
 };
 
 struct Options OPTS = {
+	.head = '@',
+	.body = 'x',
+
+	.fore = COLOR_WHITE,
+	.back = COLOR_BLUE,
+	.pair = 2,
+
 	.colors = true,
-	.predef = 2,
 
 	.corpses = false,
 	.trash = false
@@ -18,8 +25,10 @@ int getargs(int argc, char **argv);
 
 static int parse_opt(int key, char *arg, struct argp_state *state){
 	switch(key){
+		case 'h': OPTS.head = arg[0]; break;
+		case 'b': OPTS.body = arg[0]; break;
+		case 'p': OPTS.pair = atoi(arg); break;
 		case 'n': OPTS.colors = false; break;
-		case 'd': OPTS.predef = atoi(arg); break;
 	}
 
 	return 0;
@@ -27,8 +36,10 @@ static int parse_opt(int key, char *arg, struct argp_state *state){
 
 int getargs(int argc, char **argv){
 	struct argp_option options[] = {
+		{"head-symbol", 'h', "SYM", 0, "Use SYM as snake's head"},
+		{"body-symbol", 'b', "SYM", 0, "Use SYM as snake's body"},
+		{"color-pair", 'p', "NUM", 0, "Use NUM default snake color scheme"},
 		{"no-colors", 'n', 0, 0, "Run program without colors"},
-		{"default", 'd', "NUM", 0, "Use NUM default snake color scheme"},
 		{0}
 	};
 	struct argp argp = {options, parse_opt};

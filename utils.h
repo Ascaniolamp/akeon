@@ -1,6 +1,8 @@
 #include <signal.h>
 #include <time.h>
 
+int FIXED_LINES, FIXED_COLS;
+
 int randrange(int min, int max){ return random() % (max + 1 - min) + min; }
 void endprogram(int code);
 void initprogram();
@@ -31,6 +33,9 @@ void initprogram(){
 	nonl();
 	cbreak();
 	echo();
+
+	FIXED_LINES = LINES;
+	FIXED_COLS = COLS;
 
 	OPTS.colors = OPTS.colors && has_colors();
 	if(!OPTS.colors) return;
