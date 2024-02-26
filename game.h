@@ -81,10 +81,10 @@ void snake_movement(Snake *snake){
 	}
 
 	switch(getch()){
-		case 'k': snake->ydir = -1; snake->xdir = 0; break;
-		case 'j': snake->ydir = 1; snake->xdir = 0; break;
-		case 'h': snake->ydir = 0; snake->xdir = -1; break;
-		case 'l': snake->ydir = 0; snake->xdir = 1; break;
+		case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
+		case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
+		case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
+		case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
 	}
 
 	snake->ybody[0] += snake->ydir;
