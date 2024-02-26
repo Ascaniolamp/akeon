@@ -23,7 +23,8 @@ void apple_regen(Apple *apple);
 void apple_eat(Apple *apple, Snake *snake);
 
 void snake_updatebody(Snake *snake);
-void snake_movement(Snake *snake, bool player);
+void snake_input(Snake *snake);
+void snake_movement(Snake *snake);
 void snake_deathwin(Snake *snake);
 void snake_collision(Snake *snake, Snake *s2);
 void snake_die(Snake *snake);
@@ -85,18 +86,18 @@ void snake_updatebody(Snake *snake){
 	}
 }
 
-void snake_movement(Snake *snake, bool player){
+void snake_input(Snake *snake){
+	switch(getch()){
+		case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
+		case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
+		case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
+		case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
+	}
+}
+
+void snake_movement(Snake *snake){
 	if(snake->ydir != 0 || snake->xdir != 0)
 		snake_updatebody(snake);
-
-	if(player){
-		switch(getch()){
-			case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
-			case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
-			case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
-			case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
-		}
-	}
 
 	snake->ybody[0] += snake->ydir;
 	snake->xbody[0] += snake->xdir;

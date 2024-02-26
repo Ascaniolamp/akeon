@@ -41,10 +41,12 @@ int main(int argc, char **argv){
 		erase();
 		update_viewport();
 
+		if(snakes[0].alive) snake_input(&snakes[0]);
+
 		for(int i=0; i<players; i++){
 			if(!snakes[i].alive) continue;
 
-			snake_movement(&snakes[i], i==0);
+			snake_movement(&snakes[i]);
 			apple_eat(&apple, &snakes[i]);
 			snake_deathwin(&snakes[i]);
 
