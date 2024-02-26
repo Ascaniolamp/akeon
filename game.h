@@ -22,7 +22,8 @@ typedef struct{
 void apple_regen(Apple *apple);
 void apple_eat(Apple *apple, Snake *snake);
 
-void snake_movement(Snake *snake);
+void snake_updatebody(Snake *snake);
+void snake_movement(Snake *snake, bool player);
 void snake_deathwin(Snake *snake);
 void snake_collision(Snake *snake, Snake *s2);
 void snake_die(Snake *snake);
@@ -51,6 +52,9 @@ void apple_regen(Apple *apple){
 }
 
 void apple_eat(Apple *apple, Snake *snake){
+	bool in_apple = (snake->ybody[0] == apple->ypos) && (snake->xbody[0] == apple->xpos);
+	if(!in_apple) return;
+
 	snake->size++;
 
 	bool bad_apple;
@@ -74,17 +78,24 @@ void apple_render(Apple *apple){
 	attrset(COLOR_PAIR(0));
 }
 
-void snake_movement(Snake *snake){
+void snake_updatebody(Snake *snake){
 	for(int i=snake->size-1; i>0; i--){
 		snake->ybody[i] = snake->ybody[i-1];
 		snake->xbody[i] = snake->xbody[i-1];
 	}
+}
 
-	switch(getch()){
-		case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
-		case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
-		case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
-		case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
+void snake_movement(Snake *snake, bool player){
+	if(snake->ydir != 0 || snake->xdir != 0)
+		snake_updatebody(snake);
+
+	if(player){
+		switch(getch()){
+			case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
+			case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
+			case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
+			case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
+		}
 	}
 
 	snake->ybody[0] += snake->ydir;
@@ -99,8 +110,7 @@ void snake_deathwin(Snake *snake){
 }
 
 void snake_collision(Snake *snake, Snake *s2){
-	int i = 0;
-	if(snake == s2) i = 1;
+	int i = snake == s2 ? 1 : 0;
 
 	for(i; i<s2->size; i++){
 		bool in_body = (snake->ybody[0] == s2->ybody[i]) && (snake->xbody[0] == s2->xbody[i]);
@@ -112,7 +122,8 @@ void snake_collision(Snake *snake, Snake *s2){
 
 void snake_die(Snake *snake){
 	snake->alive = false;
-	snake->size = -1;
+	snake->ydir = 0;
+	snake->xdir = 0;
 }
 
 void snake_render(Snake *snake){

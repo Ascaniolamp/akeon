@@ -17,9 +17,9 @@ int main(int argc, char **argv){
 
 	Snake snakes[MAXPLAYERS] = {
 		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true},
-		{'1', 'c', COLOR_RED, COLOR_MAGENTA, -1, {10}, {13}, 3, 0, 0, true},
-		{'2', 'c', COLOR_CYAN, COLOR_YELLOW, -1, {20}, {10}, 3, 0, 0, true},
-		{'3', 'c', COLOR_MAGENTA, COLOR_BLUE, -1, {18}, {16}, 3, 0, 0, true}
+		{'1', 'c', COLOR_RED, COLOR_MAGENTA, -1, {10}, {13}, 3, randrange(-1,1), randrange(-1,1), true},
+		{'2', 'c', COLOR_CYAN, COLOR_YELLOW, -1, {20}, {10}, 3, randrange(-1,1), randrange(-1,1), true},
+		{'3', 'c', COLOR_MAGENTA, COLOR_BLUE, -1, {18}, {16}, 3, randrange(-1,1), randrange(-1,1), true}
 	};
 
 	// init snakes
@@ -41,19 +41,18 @@ int main(int argc, char **argv){
 		erase();
 		update_viewport();
 
-		if(snakes[0].alive) snake_movement(&snakes[0]);
-
 		for(int i=0; i<players; i++){
 			if(!snakes[i].alive) continue;
 
-			bool in_apple = (snakes[i].ybody[0] == apple.ypos) && (snakes[i].xbody[0] == apple.xpos);
-			if(in_apple) apple_eat(&apple, &snakes[i]);
-
+			snake_movement(&snakes[i], i==0);
+			apple_eat(&apple, &snakes[i]);
 			snake_deathwin(&snakes[i]);
 
-			for(int j=0; j<players; j++) snake_collision(&snakes[i], &snakes[j]);
+			for(int j=0; j<players; j++)
+				if(snakes[j].alive || OPTS.corpses)
+					snake_collision(&snakes[i], &snakes[j]);
 
-			if(snakes[i].alive) snake_render(&snakes[i]);
+			if(snakes[i].alive || OPTS.corpses) snake_render(&snakes[i]);
 		}
 
 		apple_render(&apple);
