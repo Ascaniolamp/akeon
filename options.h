@@ -29,6 +29,7 @@ static int parse_opt(int key, char *arg, struct argp_state *state){
 		case 'b': OPTS.body = arg[0]; break;
 		case 'p': OPTS.pair = atoi(arg); break;
 		case 'n': OPTS.colors = false; break;
+		case 'c': OPTS.corpses = true; break;
 	}
 
 	return 0;
@@ -39,6 +40,7 @@ int getargs(int argc, char **argv){
 		{"head-symbol", 'h', "SYM", 0, "Use SYM as snake's head"},
 		{"body-symbol", 'b', "SYM", 0, "Use SYM as snake's body"},
 		{"color-pair", 'p', "NUM", 0, "Use NUM default snake color scheme"},
+		{"corpses", 'c', 0, 0, "Enable corpse as trash after snake death"},
 		{"no-colors", 'n', 0, 0, "Run program without colors"},
 		{0}
 	};

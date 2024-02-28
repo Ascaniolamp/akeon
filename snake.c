@@ -51,10 +51,10 @@ int main(int argc, char **argv){
 			snake_deathwin(&snakes[i]);
 
 			for(int j=0; j<players; j++)
-				if(snakes[j].alive || OPTS.corpses)
+				if(snakes[j].alive)
 					snake_collision(&snakes[i], &snakes[j]);
 
-			if(snakes[i].alive || OPTS.corpses) snake_render(&snakes[i]);
+			if(snakes[i].alive) snake_render(&snakes[i]);
 		}
 
 		apple_render(&apple);
