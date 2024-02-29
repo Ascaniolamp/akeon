@@ -1,26 +1,8 @@
-#define MAXLENGTH 150
-#define MAXPLAYERS 10
-
-float multiplier = 1;
-int delay = 200000;
-
-typedef struct{
-	char head_symbol, body_symbol;
-	int color_fore, color_back, color_pair;
-
-	int ybody[MAXLENGTH], xbody[MAXLENGTH], size;
-	int ydir, xdir;
-
-	bool alive;
-}Snake;
-
-typedef struct{
-	char symbol;
-	int ypos, xpos;
-}Apple;
+void borders_render();
 
 void apple_regen(Apple *apple);
 void apple_eat(Apple *apple, Snake *snake);
+void apple_render(Apple *apple);
 
 void snake_updatebody(Snake *snake);
 void snake_input(Snake *snake);
@@ -28,10 +10,7 @@ void snake_movement(Snake *snake);
 void snake_deathwin(Snake *snake);
 void snake_collision(Snake *snake, Snake *s2);
 void snake_die(Snake *snake);
-
-void apple_render(Apple *apple);
 void snake_render(Snake *snake);
-void borders_render();
 
 void borders_render(){
 	attrset(COLOR_PAIR(0));
@@ -88,10 +67,10 @@ void snake_updatebody(Snake *snake){
 
 void snake_input(Snake *snake){
 	switch(getch()){
-		case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
-		case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
-		case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
-		case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
+		case KEY_UP: case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
+		case KEY_LEFT: case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
+		case KEY_DOWN: case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
+		case KEY_RIGHT: case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
 	}
 }
 

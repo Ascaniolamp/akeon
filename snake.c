@@ -4,8 +4,10 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "data.h"
 #include "options.h"
 #include "utils.h"
+#include "online.h"
 #include "game.h"
 
 int main(int argc, char **argv){
@@ -17,15 +19,15 @@ int main(int argc, char **argv){
 
 	Snake snakes[MAXPLAYERS] = {
 		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true},
-		{'1', 'c', COLOR_RED, COLOR_MAGENTA, -1, {10}, {13}, 3, randrange(-1,1), randrange(-1,1), true},
-		{'2', 'c', COLOR_CYAN, COLOR_YELLOW, -1, {20}, {10}, 3, randrange(-1,1), randrange(-1,1), true},
-		{'3', 'c', COLOR_MAGENTA, COLOR_BLUE, -1, {18}, {16}, 3, randrange(-1,1), randrange(-1,1), true}
+		get_player(),
+		get_player(),
+		get_player()
 	};
 
-	// init snakes
+	// init snakes colors
 	if(OPTS.colors){
 		for(int i=1; i<players; i++){
-			int pair = i+10;
+			int pair = i+2;
 			init_pair(pair, snakes[i].color_fore, snakes[i].color_back);
 			snakes[i].color_pair = pair;
 

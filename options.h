@@ -27,9 +27,15 @@ static int parse_opt(int key, char *arg, struct argp_state *state){
 	switch(key){
 		case 'h': OPTS.head = arg[0]; break;
 		case 'b': OPTS.body = arg[0]; break;
-		case 'p': OPTS.pair = atoi(arg); break;
 		case 'n': OPTS.colors = false; break;
 		case 'c': OPTS.corpses = true; break;
+		case 'p':
+			switch(atoi(arg)){
+				case 1: OPTS.fore = COLOR_WHITE; OPTS.back = COLOR_GREEN; break;
+				case 2: OPTS.fore = COLOR_BLACK; OPTS.back = COLOR_WHITE; break;
+				case 3: OPTS.fore = COLOR_GREEN; OPTS.back = COLOR_RED; break;
+			}
+			break;
 	}
 
 	return 0;
