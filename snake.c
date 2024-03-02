@@ -21,7 +21,7 @@ int main(int argc, char **argv){
 		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true}
 	};
 
-	for(int i=1; i<players; i++) snakes[i] = get_player(i);
+	for(int i=1; i<players; i++) snakes[i] = create_player(i);
 
 	Apple apple = {'O', 0, 0};
 	apple_regen(&apple);

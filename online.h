@@ -7,7 +7,7 @@
 
 void host_server();
 void connect_server();
-Snake get_player();
+Snake create_player(int num);
 
 void host_server(){
 	// PLACEHOLDER
@@ -17,7 +17,7 @@ void connect_server(){
 	// PLACEHOLDER
 }
 
-Snake get_player(int num){
+Snake create_player(int num){
 
 	Snake player = {
 		.head_symbol = '1',
