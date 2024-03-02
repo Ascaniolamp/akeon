@@ -18,23 +18,10 @@ int main(int argc, char **argv){
 	int players = 4;
 
 	Snake snakes[MAXPLAYERS] = {
-		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true},
-		get_player(),
-		get_player(),
-		get_player()
+		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true}
 	};
 
-	// init snakes colors
-	if(OPTS.colors){
-		for(int i=1; i<players; i++){
-			int pair = i+2;
-			init_pair(pair, snakes[i].color_fore, snakes[i].color_back);
-			snakes[i].color_pair = pair;
-
-			snakes[i].ybody[0] = randrange(1,FIXED_LINES-2);
-			snakes[i].xbody[0] = randrange(1,FIXED_COLS-2);
-		}
-	}
+	for(int i=1; i<players; i++) snakes[i] = get_player(i);
 
 	Apple apple = {'O', 0, 0};
 	apple_regen(&apple);
