@@ -14,7 +14,7 @@ int main(int argc, char **argv){
 	if(argc > 1) getargs(argc, argv);
 	initprogram();
 
-	int YCENTER = (LINES-2)/2, XCENTER = (COLS-2)/2;
+	int YCENTER = (FIXED_LINES-2)/2, XCENTER = (FIXED_COLS-2)/2;
 	int players = 4;
 
 	Snake snakes[MAXPLAYERS] = {
