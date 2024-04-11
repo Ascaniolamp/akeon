@@ -148,10 +148,10 @@ void apple_regen(int *ypos, int *xpos){
 
 void snake_movement(int *ypos, int *xpos, int *ydir, int *xdir){
 	switch(getch()){
-		case KEY_UP: *ydir = -1; *xdir = 0; break;
-		case KEY_DOWN: *ydir = 1; *xdir = 0; break;
-		case KEY_LEFT: *ydir = 0; *xdir = -1; break;
-		case KEY_RIGHT: *ydir = 0; *xdir = 1; break;
+		case 'k': case 'w': case KEY_UP: *ydir = -1; *xdir = 0; break;
+		case 'j': case 's': case KEY_DOWN: *ydir = 1; *xdir = 0; break;
+		case 'h': case 'a': case KEY_LEFT: *ydir = 0; *xdir = -1; break;
+		case 'l': case 'd': case KEY_RIGHT: *ydir = 0; *xdir = 1; break;
 	}
 
 	*ypos += *ydir;
