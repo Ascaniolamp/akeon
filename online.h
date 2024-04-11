@@ -11,11 +11,11 @@ void connect_server();
 Snake create_player(int num);
 
 void host_server(){
-	// PLACEHOLDER
+	// TODO
 }
 
 void connect_server(){
-	// PLACEHOLDER
+	// TODO
 }
 
 Snake create_player(int num){

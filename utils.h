@@ -39,8 +39,12 @@ void initprogram(){
 	cbreak();
 	echo();
 
-	FIXED_LINES = LINES;
-	FIXED_COLS = COLS;
+	FIXED_LINES = OPTS.fixed_lines;
+	if(FIXED_LINES == 0) FIXED_LINES = LINES;
+
+	FIXED_COLS = OPTS.fixed_cols;
+	if(FIXED_COLS == 0) FIXED_COLS = COLS;
+
 	update_viewport();
 
 	OPTS.colors = OPTS.colors && has_colors();
