@@ -67,10 +67,10 @@ void snake_updatebody(Snake *snake){
 
 void snake_input(Snake *snake){
 	switch(getch()){
-		case KEY_UP: case 'w': case 'k': snake->ydir = -1; snake->xdir = 0; break;
-		case KEY_LEFT: case 'a': case 'h': snake->ydir = 0; snake->xdir = -1; break;
-		case KEY_DOWN: case 's': case 'j': snake->ydir = 1; snake->xdir = 0; break;
-		case KEY_RIGHT: case 'd': case 'l': snake->ydir = 0; snake->xdir = 1; break;
+		case 'k': case 'w': case KEY_UP: snake->ydir = -1; snake->xdir = 0; break;
+		case 'h': case 'a': case KEY_LEFT: snake->ydir = 0; snake->xdir = -1; break;
+		case 'j': case 's': case KEY_DOWN: snake->ydir = 1; snake->xdir = 0; break;
+		case 'l': case 'd': case KEY_RIGHT: snake->ydir = 0; snake->xdir = 1; break;
 	}
 }
 
