@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 
 #define PORTNUM 7834
+// TODO: Datagram Sockets (SOCK_DGRAM)
 
 void host_server();
 void connect_server();
