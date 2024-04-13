@@ -1,4 +1,4 @@
-# akeon (Snake Online)
+# ![akeon](logo.png?raw=true "akeon logo") (Snake Online)
 A fully-customizable, online CLI version of snake made with ncurses.
 
 Type `akeon --help` for all the customization and game options.
