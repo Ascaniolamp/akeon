@@ -1,12 +1,11 @@
 <div align="center">
 <img src="./logo.png" alt="banner">
 <br>
-
-# Snake Online
-A fully-customizable, online CLI version of snake made with ncurses.<br>
+Short for "snake online", akeon is a fully-customizable, online CLI version of snake made with ncurses.<br>
 <sup>Type `akeon --help` for all the customization and game options.</sup>
+</div>
 
-## TODO
+## <div align="center" id="Install"> TODO </div>
 [ ] Add "YOU LOST" message (with exit option)
 [ ] Add local multiplayer
 [ ] Add online multiplayer
