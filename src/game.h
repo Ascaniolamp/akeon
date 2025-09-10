@@ -1,3 +1,5 @@
+#pragma once
+
 void borders_render();
 
 void apple_regen(Apple *apple);
@@ -41,7 +43,7 @@ void apple_eat(Apple *apple, Snake *snake){
 	do{
 		bad_apple = false;
 		apple_regen(apple);
-		
+
 		for(int i=0; i<snake->size; i++)
 			if((apple->ypos == snake->ybody[i]) && (apple->xpos == snake->xbody[i]))
 				bad_apple = true;

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <argp.h>
 
 struct Options{

@@ -12,3 +12,4 @@ Short for "snake online", akeon is a fully-customizable, online CLI version of s
 - [ ] Borders use box-drawing characters (https://en.wikipedia.org/wiki/Box-drawing_characters)
 - [ ] Choose border style (+legacy)
 - [ ] Header files do correctly (split .h and .c)
+- [ ] Cannot go back so as not to kill yourself (w/option)

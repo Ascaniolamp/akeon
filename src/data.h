@@ -1,3 +1,5 @@
+#pragma once
+
 #define MAXLENGTH 150
 #define MAXPLAYERS 10
 float multiplier = 1;
