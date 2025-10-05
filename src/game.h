@@ -1,6 +1,8 @@
 #pragma once
 
-void borders_render();
+#include <ctype.h>
+#include "options.h"
+#include "utils.h"
 
 void apple_regen(Apple *apple);
 void apple_eat(Apple *apple, Snake *snake);
@@ -8,29 +10,16 @@ void apple_render(Apple *apple);
 
 void snake_updatebody(Snake *snake);
 void snake_input(Snake *snake);
+void snake_setdir(Snake *snake, int xdir, int ydir);
 void snake_movement(Snake *snake);
 void snake_deathwin(Snake *snake);
 void snake_collision(Snake *snake, Snake *s2);
 void snake_die(Snake *snake);
 void snake_render(Snake *snake);
 
-void borders_render(){
-	attrset(COLOR_PAIR(0));
-
-	for(int i=STARTLINE; i<ENDLINE; i++){
-		mvaddch(i,STARTCOL,'|');
-		mvaddch(i,ENDCOL-1,'|');
-	}
-
-	for(int i=STARTCOL; i<ENDCOL; i++){
-		mvaddch(STARTLINE,i,'=');
-		mvaddch(ENDLINE-1,i,'=');
-	}
-}
-
 void apple_regen(Apple *apple){
-	apple->ypos = randrange(1,FIXED_LINES-2);
-	apple->xpos = randrange(1,FIXED_COLS-2);
+	apple->ypos = randrange(1, GAMELINES);
+	apple->xpos = randrange(1, GAMECOLS);
 }
 
 void apple_eat(Apple *apple, Snake *snake){
@@ -49,7 +38,7 @@ void apple_eat(Apple *apple, Snake *snake){
 				bad_apple = true;
 	}while(bad_apple);
 
-	delay *= multiplier;
+	LOBBY.delay *= LOBBY.multiplier;
 }
 
 void apple_render(Apple *apple){
@@ -68,12 +57,35 @@ void snake_updatebody(Snake *snake){
 }
 
 void snake_input(Snake *snake){
-	switch(getch()){
-		case 'k': case 'w': case KEY_UP: snake->ydir = -1; snake->xdir = 0; break;
-		case 'h': case 'a': case KEY_LEFT: snake->ydir = 0; snake->xdir = -1; break;
-		case 'j': case 's': case KEY_DOWN: snake->ydir = 1; snake->xdir = 0; break;
-		case 'l': case 'd': case KEY_RIGHT: snake->ydir = 0; snake->xdir = 1; break;
+	if(!LOBBY.players[0].alive) return;
+
+	switch(tolower(getch())){
+		case 'k': case 'w': case KEY_UP: snake_setdir(snake, 0, -1); break;
+		case 'h': case 'a': case KEY_LEFT: snake_setdir(snake, -1, 0); break;
+		case 'j': case 's': case KEY_DOWN: snake_setdir(snake, 0, 1); break;
+		case 'l': case 'd': case KEY_RIGHT: snake_setdir(snake, 1, 0); break;
 	}
+}
+
+void snake_setdir(Snake *snake, int xdir, int ydir){
+	bool going_back = (snake->xdir == (xdir * -1) && snake->ydir == (ydir * -1));
+	if(going_back){
+		if(LOBBY.can_stop){
+			snake_setdir(snake, 0, 0);
+			return;
+		}
+		else{
+			if(!LOBBY.back_die) return;
+		}
+	}
+
+	bool going_fwd = (snake->xdir == xdir && snake->ydir == ydir);
+	if(going_fwd){
+		centered_text(XCENTER, YCENTER, "TOO FAST!");
+	}
+
+	snake->xdir = xdir;
+	snake->ydir = ydir;
 }
 
 void snake_movement(Snake *snake){
@@ -85,7 +97,7 @@ void snake_movement(Snake *snake){
 }
 
 void snake_deathwin(Snake *snake){
-	bool out_borders = (snake->ybody[0] > FIXED_LINES-2 || snake->ybody[0] < 1) || (snake->xbody[0] > FIXED_COLS-2 || snake->xbody[0] < 1);
+	bool out_borders = (snake->ybody[0] > GAMELINES || snake->ybody[0] < 1) || (snake->xbody[0] > GAMECOLS || snake->xbody[0] < 1);
 	if(out_borders) snake_die(snake);
 
 	if(snake->size >= MAXLENGTH) endprogram(5);
@@ -104,8 +116,8 @@ void snake_collision(Snake *snake, Snake *s2){
 
 void snake_die(Snake *snake){
 	snake->alive = false;
-	snake->ydir = 0;
 	snake->xdir = 0;
+	snake->ydir = 0;
 }
 
 void snake_render(Snake *snake){

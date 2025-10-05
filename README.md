@@ -5,11 +5,23 @@ Short for "snake online", akeon is a fully-customizable, online CLI version of s
 <sup>Type `akeon --help` for all the customization and game options.</sup>
 </div>
 
-## <div align="center"> TODO </div>
+## TODO
 - [ ] Add "YOU LOST" message (with exit option)
-- [ ] Add local multiplayer
 - [ ] Add online multiplayer
-- [ ] Borders use box-drawing characters (https://en.wikipedia.org/wiki/Box-drawing_characters)
-- [ ] Choose border style (+legacy)
 - [ ] Header files do correctly (split .h and .c)
-- [ ] Cannot go back so as not to kill yourself (w/option)
+- [ ] Fix grid spawn
+- [ ] Add menu
+- [ ] Face-to-face collision either kills both or snakes bounce to another direction
+- [ ] UI & Messages
+- [ ] Diagonal movement
+- [ ] Choose server's fixedsize or min fixedsize
+- [ ] Convert all coordinates to xy
+- [ ] Win when alive_players == 1 or when snake.length == MAX_LENGTH
+
+### Gamemodes
+- [ ] Corpses (bodies stay as trash)
+- [ ] Dedicated (apples can be only used by their respective player, others die)
+- [ ] Split mode (snakes hit w/head get split)
+- [ ] Trash (random trash generated)
+- [ ] Steal (steal killed snake's size)
+- [ ] Speed (double forward uses 1 size for boost)

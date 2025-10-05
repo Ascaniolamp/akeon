@@ -7,21 +7,22 @@
 #include "data.h"
 #include "options.h"
 #include "utils.h"
-#include "online.h"
+#include "multiplayer.h"
+#include "networking.h"
 #include "game.h"
 
 int main(int argc, char **argv){
 	if(argc > 1) getargs(argc, argv);
 	initprogram();
 
-	int YCENTER = (FIXED_LINES-2)/2, XCENTER = (FIXED_COLS-2)/2;
-	int players = 4;
+	Snake gamer = {OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {XCENTER}, {YCENTER}, LOBBY.startlen, 0, 0, true};
+	LOBBY.players[0] = gamer;
 
-	Snake snakes[MAXPLAYERS] = {
-		{OPTS.head, OPTS.body, OPTS.fore, OPTS.back, OPTS.pair, {YCENTER}, {XCENTER}, 3, 0, 0, true}
-	};
+	if(LOBBY.multiplayer){
+		lobby_await();
+	}
 
-	for(int i=1; i<players; i++) snakes[i] = create_player(i);
+	countdown(LOBBY.countdown);
 
 	Apple apple = {'O', 0, 0};
 	apple_regen(&apple);
@@ -30,27 +31,27 @@ int main(int argc, char **argv){
 		erase();
 		update_viewport();
 
-		if(snakes[0].alive) snake_input(&snakes[0]);
+		snake_input(&LOBBY.players[0]);
 
-		for(int i=0; i<players; i++){
-			if(!snakes[i].alive) continue;
+		for(int i = 0; i < LOBBY.players_num; i++){
+			if(!LOBBY.players[i].alive) continue;
 
-			snake_movement(&snakes[i]);
-			apple_eat(&apple, &snakes[i]);
-			snake_deathwin(&snakes[i]);
+			snake_movement(&LOBBY.players[i]);
+			apple_eat(&apple, &LOBBY.players[i]);
+			snake_deathwin(&LOBBY.players[i]);
 
-			for(int j=0; j<players; j++)
-				if(snakes[j].alive)
-					snake_collision(&snakes[i], &snakes[j]);
+			for(int j = 0; j < LOBBY.players_num; j++)
+				if(LOBBY.players[j].alive)
+					snake_collision(&LOBBY.players[i], &LOBBY.players[j]);
 
-			if(snakes[i].alive) snake_render(&snakes[i]);
+			if(LOBBY.players[i].alive) snake_render(&LOBBY.players[i]);
 		}
 
 		apple_render(&apple);
 		borders_render();
 
 		refresh();
-		usleep(delay);
+		usleep(LOBBY.delay);
 	}
 
 	endprogram(2);
